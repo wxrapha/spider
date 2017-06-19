@@ -9,8 +9,8 @@ cookiedouban = cookielib.MozillaCookieJar(filename)
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookiedouban))
 geturl = "https://www.douban.com/"
 values = {
-    'form_email': '15062255019',
-    'form_password': 'xh940723'
+    'form_email': '账号',
+    'form_password': '密码'
 }
 data = urllib.urlencode(values)
 result = opener.open(geturl, data)
