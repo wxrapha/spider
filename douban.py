@@ -2,12 +2,11 @@
 __author__ = 'xiehao'
 __date__ = '2017/6/18 下午12:44'
 
-from lxml import etree
+
 import urllib
 import urllib2
 import cookielib
 import re
-import sys
 
 
 class DouBan:
@@ -26,8 +25,8 @@ class DouBan:
 
     def getPage(self):
         request = urllib2.Request(
-            url= self.loginUrl,
-            data= self.postdata)
+            url=self.loginUrl,
+            data=self.postdata)
         result = self.opener.open(request)
         print result.read()
 
