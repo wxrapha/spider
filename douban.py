@@ -2,19 +2,34 @@
 __author__ = 'xiehao'
 __date__ = '2017/6/18 下午12:44'
 
-import urllib, urllib2, cookielib
+from lxml import etree
+import urllib
+import urllib2
+import cookielib
+import re
+import sys
 
-filename = 'cookiedouban.txt'
-cookiedouban = cookielib.MozillaCookieJar(filename)
-opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookiedouban))
-geturl = "https://www.douban.com/"
-values = {
-    'form_email': '15062255019',
-    'form_password': 'xh940723'
-}
-data = urllib.urlencode(values)
-result = opener.open(geturl, data)
-cookiedouban.save(ignore_discard=True, ignore_expires=True)
-gradeUrl = 'https://movie.douban.com'
-result = opener.open(geturl)
-print result.read()
+
+class DouBan:
+    def __init__(self):
+
+        self.loginUrl = 'https://www.douban.com/accounts/login'
+
+        self.cookies = cookielib.CookieJar()
+
+        self.postdata = urllib.urlencode({
+            'form_email': '15062255019',
+            'form_password': 'xh940723'
+        })
+
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookies))
+
+    def getPage(self):
+        request = urllib2.Request(
+            url= self.loginUrl,
+            data= self.postdata)
+        result = self.opener.open(request)
+        print result.read()
+
+douban = DouBan()
+douban.getPage()
