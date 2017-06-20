@@ -41,8 +41,8 @@ def main():
     page = urllib2.urlopen(loginUrl).read()
     postdata = urllib.urlencode({
         '__VIEWSTATE': getVIEW(page),
-        'txtYhm':'12014052014',
-        'txtMm':'wang951012',
+        'txtYhm':'账号',
+        'txtMm':'密码',
         'rblJs': '学生',
         'btnDl': '登录'
     })
@@ -72,8 +72,8 @@ def main():
     'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
     }
     getdata = urllib.urlencode({
-        'xh':'12014052014',
-        'xm':'王韵致',
+        'xh':'账号',
+        'xm':'名字',
         'gnmkdm': 'N121605'
     })
     MyRequest = urllib2.Request('http://222.24.19.201/xscjcx.aspx?' + getdata, None, head)
