@@ -7,31 +7,12 @@ import urllib
 import urllib2
 import re
 import cookielib
-from lxml import etree
-import requests
+
 
 def getVIEW(Page):
     view = r'name="__VIEWSTATE" value="(.+)" '
     view = re.compile(view)
     return view.findall(Page)[0]
-
-
-def Print(Score_html):		# print the result
-    str = r"<td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.?)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.?)</td><td>(.?)</td>"
-    str = re.compile(str)
-    result = {}
-    subject = []
-    a = str.findall(Score_html)
-    for i in a:
-        for j in range(15):
-            subject.append(i[j])
-        result[subject[3]] = subject
-        subject = []
-
-    for i in result.keys():
-        j = result[i]
-        print '%-10s%-2s%-10s%-8s%6s%8s%10s%6s%6s%5s%10s%-10s%-15s%s%s' % tuple(j)
-        print " "
 
 def main():
     loginUrl = 'http://218.94.104.201:85/default6.aspx'
