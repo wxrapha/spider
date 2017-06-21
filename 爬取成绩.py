@@ -7,15 +7,16 @@ import urllib
 import urllib2
 import re
 import cookielib
-
-
+from lxml import etree
+import requests
 
 def getVIEW(Page):
     view = r'name="__VIEWSTATE" value="(.+)" '
     view = re.compile(view)
     return view.findall(Page)[0]
 
-def Print(Score_html):
+
+def Print(Score_html):		# print the result
     str = r"<td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.?)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.?)</td><td>(.?)</td>"
     str = re.compile(str)
     result = {}
@@ -31,7 +32,6 @@ def Print(Score_html):
         j = result[i]
         print '%-10s%-2s%-10s%-8s%6s%8s%10s%6s%6s%5s%10s%-10s%-15s%s%s' % tuple(j)
         print " "
-
 
 def main():
     loginUrl = 'http://218.94.104.201:85/default6.aspx'
@@ -55,7 +55,7 @@ def main():
     )
     myRequest = urllib2.Request(loginUrl, postdata, headers)
     loginPage = opener.open(myRequest).read()
-    page = unicode(loginPage, 'gb2312').encode("utf-8")
+    page = loginPage.decode('gbk')
 
     for i in cookies:
         Cookie1 = i.name + "=" + i.value
@@ -76,17 +76,30 @@ def main():
         'xm':'名字',
         'gnmkdm': 'N121605'
     })
-    MyRequest = urllib2.Request('http://222.24.19.201/xscjcx.aspx?' + getdata, None, head)
-    loginPage = unicode(opener.open(MyRequest).read(), 'gb2312').encode("utf-8")
+    MyRequest = urllib2.Request('http://218.94.104.201:85/xscj.aspx?' + getdata, None, head)
+    loginPage = opener.open(MyRequest).read().decode('gbk')
     data = urllib.urlencode({
         "__VIEWSTATE": getVIEW(loginPage),
         'Button2': '在校学习成绩查询'
     })
-    MyRequest = urllib2.Request('http://222.24.19.201/xscjcx.aspx?' + getdata, data, head)  # Score's page
+    MyRequest = urllib2.Request('http://218.94.104.201:85/xscj.aspx?' + getdata, data, head) # Score's page
     html = opener.open(MyRequest)
-    result = unicode(html.read(), 'gb2312').encode("utf-8")
-
+    result = html.read().decode('gbk')
     print result
-
+    str = r"<td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.*)</td><td>(.?)</td>"
+    str = re.compile(str)
+    chengji = {}
+    kcmc = []
+    qmcj = []
+    cj = []
+    xf = []
+    a = str.findall(result)
+    for i in a:
+        kcmc.append(i[1].encode('gbk')),
+        qmcj.append(i[3].encode('gbk')),
+        cj.append(i[4].encode('gbk')),
+        xf.append(i[8].encode('gbk'))
+    print cj
+    print xf
 if __name__ == '__main__':
     main()
